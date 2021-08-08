@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-i-f$^^da@bg7ivyk6%c+f$p#!mtdmyxk(o6^8_ehtj((=%d4u$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['8e32ea14229a.ngrok.io', 'localhost:8000', 'localhost']
 
 # (https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
 # Setting localhost:3000  as our serve port.
@@ -133,3 +134,7 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'images')
+MEDIA_URL = '/'
