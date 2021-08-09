@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-i-f$^^da@bg7ivyk6%c+f$p#!mtdmyxk(o6^8_ehtj((=%d4u$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['8e32ea14229a.ngrok.io', 'localhost:8000', 'localhost']
+ALLOWED_HOSTS = ['8e32ea14229a.ngrok.io', 'localhost:8000', 'localhost', '127.0.0.1']
 
 # (https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
 # Setting localhost:3000  as our serve port.
@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',                              # plugin added(https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
     'rest_framework',                           # plugin added.(https://www.django-rest-framework.org/)
-    'apis',                                     # custom-app added.
+    'apis',
+    'users'                                    # custom-app added.
 ]
 
 MIDDLEWARE = [
@@ -138,3 +139,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'images')
 MEDIA_URL = '/'
+
+AUTH_USER_MODEL = 'users.User'
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True

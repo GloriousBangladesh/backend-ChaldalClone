@@ -23,7 +23,7 @@ class ProductView(viewsets.ModelViewSet):
 def search_products(request):
     if request.method == "GET":
         query = request.GET['q']
-        results = Product.objects.defer('description').filter(name__contains=query).values()
+        results = Product.objects.defer('description').filter(title__contains=query).values()
         print(query)
         responseData = {
             'result': results
@@ -38,7 +38,7 @@ def search_products(request):
     
     return JsonResponse({
         "query": "",
-        "error": "?u=<value> is required!"
+        "error": "?q=<value> is required!"
     })
 
 def search_by_category(request):
@@ -60,7 +60,7 @@ def search_by_category(request):
    
     return JsonResponse({
         "query": "",
-        "error": "?u=<value> is required!"
+        "error": "?q=<value> is required!"
     })
 
 def search_product_by_id(request):
@@ -82,5 +82,5 @@ def search_product_by_id(request):
    
     return JsonResponse({
         "query": "",
-        "error": "?u=<value> is required!"
+        "error": "?id=<value> is required!"
     })

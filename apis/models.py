@@ -25,7 +25,7 @@ from django.db.models.fields import BLANK_CHOICE_DASH
 class Product(models.Model):
     ''' Class to interact with db.sqlite3 and creates the Product table'''
 
-    name = models.CharField(("Name"), max_length=50)
+    title = models.CharField(("Name"), max_length=50)
     image = models.ImageField(upload_to="images/", blank=True, null=True)
     description = models.TextField("Description")
     measure = models.CharField(("Measure"), max_length=50)
@@ -39,6 +39,6 @@ class Product(models.Model):
         ordering = ['-posted_on']
 
     def __str__(self):
-        return self.name
+        return self.title
 
 
