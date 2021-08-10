@@ -17,3 +17,22 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
+
+class CartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['cart']
+    
+    def update(self, instance, validated_data):
+        print("\n\n instance \n\n")
+        print(instance)
+        print(validated_data)
+        instance.cart = validated_data['cart']
+        instance.save()
+        return instance
+    
+    # def update(self, instance, validated_data):
+    #     instance.cart = validated_data
+
+    #     instance.save()
+    #     return instance 

@@ -1,9 +1,14 @@
+from apis.models import Product
+from django.db.models import query
+from rest_framework import serializers
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
-from .serializers import UserSerializer
+from .serializers import UserSerializer, CartSerializer
+from django.http import JsonResponse
 from .models import User
 import jwt, datetime
+import time
 
 
 # Create your views here.
@@ -71,3 +76,34 @@ class LogoutView(APIView):
             'message': 'success'
         }
         return response
+
+
+
+class CartUpdateView(APIView):
+
+    def post(self, request):
+        token = request.COOKIES.get('jwt')
+
+        if not token:
+            raise AuthenticationFailed('Unauthenticated!')
+
+        try:
+            payload = jwt.decode(token, 'secret', algorithms=['HS256'])
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed('Unauthenticated!')
+
+        user = User.objects.filter(id=payload['id']).first()
+        # serializer = CartSerializer(data=request.data)
+        # serializer.is_valid(raise_exception=True)
+        
+        # serializer.save()
+        print(user.cart)
+        print(request.data)
+        user.cart = request.data
+        user.save()
+        return JsonResponse({
+            "message": "success"
+        })
+
+
+

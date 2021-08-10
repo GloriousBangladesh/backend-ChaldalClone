@@ -42,3 +42,11 @@ class Product(models.Model):
         return self.title
 
 
+class Order(models.Model):
+    title = models.CharField(("Name"), max_length=100)
+    description = models.TextField("Description")
+    total_price = models.DecimalField(("Price"), max_digits=5, decimal_places=2)
+    ordered_on = models.DateTimeField(auto_now_add=True)
+    order_completed = models.BooleanField(default=False)
+
+

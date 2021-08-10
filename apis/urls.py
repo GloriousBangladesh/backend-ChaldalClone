@@ -12,5 +12,6 @@ urlpatterns = [
     path('', include(router.urls)),
     path('search', views.search_products),
     path('category', views.search_by_category),
-    path('product', views.search_product_by_id)
+    path('product', views.search_product_by_id),
+    path('add_order', views.AddOrderView.as_view())
 ]
