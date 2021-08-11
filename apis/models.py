@@ -29,7 +29,7 @@ class Product(models.Model):
     image = models.ImageField(upload_to="images/", blank=True, null=True)
     description = models.TextField("Description")
     measure = models.CharField(("Measure"), max_length=50)
-    price = models.DecimalField(("Price"), max_digits=5, decimal_places=2)
+    price = models.DecimalField(("Price"), max_digits=7, decimal_places=2)
     slug = models.SlugField(("slug"), max_length=200, unique=True)
     posted_on = models.DateTimeField(auto_now_add=True)
     # category = models.ForeignKey("ParentCategory", verbose_name=("Category"), on_delete=models.CASCADE)
@@ -45,7 +45,7 @@ class Product(models.Model):
 class Order(models.Model):
     title = models.CharField(("Name"), max_length=100)
     description = models.TextField("Description")
-    total_price = models.DecimalField(("Price"), max_digits=5, decimal_places=2)
+    total_price = models.DecimalField(("Price"), max_digits=13, decimal_places=2)
     ordered_on = models.DateTimeField(auto_now_add=True)
     order_completed = models.BooleanField(default=False)
 

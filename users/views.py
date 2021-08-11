@@ -35,7 +35,7 @@ class LoginView(APIView):
 
         payload = {
             'id': user.id,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(days=30),
             'iat': datetime.datetime.utcnow()
         }
 
@@ -45,7 +45,9 @@ class LoginView(APIView):
 
         response.set_cookie(key='jwt', value=token, httponly=True)
         response.data = {
-            'jwt': token
+            'jwt': token,
+            'name': user.name,
+            'email': user.email
         }
         return response
 

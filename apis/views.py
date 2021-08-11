@@ -2,10 +2,11 @@ from rest_framework import viewsets
 from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.exceptions import AuthenticationFailed
-import jwt, datetime
+import jwt
 import time
 from .serializers import ProductSerializer
-from .models import Product
+import traceback
+from .models import Order, Product
 from users.models import User
 
 class ProductView(viewsets.ModelViewSet):
@@ -14,7 +15,7 @@ class ProductView(viewsets.ModelViewSet):
     queryset = Product.objects.all()
 
 
-def search_products(request):
+def search_products_by_name(request):
     if request.method == "GET":
         query = request.GET['q']
         results = Product.objects.defer('description').filter(title__contains=query).values()
@@ -94,19 +95,44 @@ class AddOrderView(APIView):
             raise AuthenticationFailed('Unauthenticated!')
 
         user = User.objects.filter(id=payload['id']).first()
-        
         data = request.data
-        cart_data = user.cart
-        order_name = str(time.ctime()) + " | " + str(user.name[:20]) + " | " + str(user.email[:75])
-        description = str(time.ctime()) + '\n' + str(user.name[:20]) + " - " + str(user.email[:75]) + " - " + data['address'] + '\n'
-        description += str(cart_data)
-
-        total_price = 123
         
-        print(user.cart)
-        print(request.data)
-        user.cart = request.data
-        user.save()
-        return JsonResponse({
-            "message": "success"
-        })
+        try:
+            cart_data = user.cart
+            order_name = str(time.ctime()) + " | " + str(user.name[:20]) + " | " + str(user.email[:20])
+            description = order_name + "\nAddress: " + data['address'] + '\n'
+            total_price = 0
+
+            for i, item in enumerate(cart_data):
+                price = float(item['price']) * float(str(item['amount']))
+                price = float("{:.2f}".format(price))
+                temp = "\n" + str(i+1) + '. '
+                temp += '\n\tid' + ": " + str(item['id'])
+                temp += '\n\t title' + ": " + str(item['title'])
+                temp += '\n\t measure' + ": " + str(item['measure'])
+                temp += '\n\t amount' + ": " + str(item['amount'])
+                temp += '\n\t price' + ": " + str(item['price']) + "x" + str(item['amount']) + " = " + str(price)
+                description += temp
+                total_price += price
+            
+            
+            print(user.cart)
+            print(request.data)
+            print("\n\n")
+            print(description)
+            # user.cart = request.data
+            # user.save()
+
+            Order.objects.create(title=order_name, description=description, total_price=total_price)
+
+            return JsonResponse({
+                "message": "success"
+            })
+        
+        except:
+            print(traceback.format_exc())
+            user.cart = {}
+            user.save()
+            return JsonResponse({
+                "message": "Invalid request or server error"
+            })
