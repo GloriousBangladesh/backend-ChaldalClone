@@ -84,7 +84,9 @@ def search_product_by_id(request):
 class AddOrderView(APIView):
 
     def post(self, request):
+        # print("asdsa")
         token = request.COOKIES.get('jwt')
+        print(token)
 
         if not token:
             raise AuthenticationFailed('Unauthenticated!')
@@ -124,7 +126,8 @@ class AddOrderView(APIView):
             # user.save()
 
             Order.objects.create(title=order_name, description=description, total_price=total_price)
-
+            user.cart = {}
+            user.save()
             return JsonResponse({
                 "message": "success"
             })

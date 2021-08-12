@@ -82,8 +82,8 @@ class LogoutView(APIView):
 
 
 class CartUpdateView(APIView):
-
     def post(self, request):
+        print(request.COOKIES)
         token = request.COOKIES.get('jwt')
 
         if not token:
