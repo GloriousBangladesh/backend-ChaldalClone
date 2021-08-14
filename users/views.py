@@ -43,7 +43,7 @@ class LoginView(APIView):
 
         response = Response()
 
-        response.set_cookie(key='jwt', value=token, httponly=True)
+        response.set_cookie(key='jwt', value=token, samesite="None", secure=True)
         response.data = {
             'jwt': token,
             'name': user.name,
@@ -83,7 +83,7 @@ class LogoutView(APIView):
 
 class CartUpdateView(APIView):
     def post(self, request):
-        print(request.COOKIES)
+        # print(request.COOKIES)
         token = request.COOKIES.get('jwt')
 
         if not token:

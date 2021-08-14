@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-i-f$^^da@bg7ivyk6%c+f$p#!mtdmyxk(o6^8_ehtj((=%d4u$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost:8000', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost:8000', 'localhost', '127.0.0.1', 'https://chdl-clone-gb-project.herokuapp.com']
 
 # (https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
 # Setting localhost:3000  as our serve port.
