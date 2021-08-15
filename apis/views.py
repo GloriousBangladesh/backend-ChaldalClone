@@ -139,3 +139,39 @@ class AddOrderView(APIView):
             return JsonResponse({
                 "message": "Invalid request or server error"
             })
+
+
+class CheckOrders(APIView):
+    def post(self, request):
+        token = request.COOKIES.get('jwt')
+        print(token)
+
+        if not token:
+            raise AuthenticationFailed('Unauthenticated!')
+
+        try:
+            payload = jwt.decode(token, 'secret', algorithms=['HS256'])
+            # print(payload)
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed('Unauthenticated!')
+
+        try:
+            query = request.data.get('user_id', '0')
+            print(request.data)
+            results = Order.objects.filter(user__in=User.objects.filter(id__exact=query)).values()
+            # print(query)
+            responseData = {
+                'result': results
+            }
+
+            return JsonResponse({
+                "query": query,
+                "result": list(results)
+            })
+        except:
+            print(traceback.format_exc())
+    
+            return JsonResponse({
+                "query": "",
+                "error": "user_id:<value> (in a post request) is required!"
+            })

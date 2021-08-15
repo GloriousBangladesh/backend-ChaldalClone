@@ -1,6 +1,6 @@
 from django.db import models
 from django.db.models.fields import BLANK_CHOICE_DASH
-
+from users.models import User
 # Create your models here.
 
 
@@ -48,5 +48,6 @@ class Order(models.Model):
     total_price = models.DecimalField(("Price"), max_digits=13, decimal_places=2)
     ordered_on = models.DateTimeField(auto_now_add=True)
     order_completed = models.BooleanField(default=False)
+    user = models.ForeignKey(User, default=None, on_delete=models.DO_NOTHING, blank=True, null=True)
 
 
